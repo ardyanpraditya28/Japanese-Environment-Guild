@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({ middleware: 'auth' })
-const { user, authHeader } = useAuth()
+const { user, authHeader, logout } = useAuth()
 
 // Optimized API fetching with Promise.all
 const [ { data: summary, pending }, { data: unread } ] = await Promise.all([
@@ -50,6 +50,11 @@ const categoryIcon: Record<string, string> = { event: '祭', regular: '巻', qui
         <NuxtLink :to="`/profile/${user?.id}`" class="w-10 h-10 rounded-full bg-card shadow-sm flex items-center justify-center font-heading text-sm font-bold text-accent">
           {{ user?.nickname?.[0] }}
         </NuxtLink>
+        <button @click="logout"
+          class="md:hidden w-10 h-10 rounded-full bg-card shadow-sm flex items-center justify-center text-accent text-sm hover:bg-accent/10 active:scale-95 transition-all"
+          title="Keluar">
+          🚪
+        </button>
       </div>
     </div>
 

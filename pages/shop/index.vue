@@ -5,7 +5,7 @@ const isStaff = computed(() => ['admin', 'staff'].includes(user.value?.role ?? '
 
 const { data: shop, pending, refresh } = await useFetch('/api/shop', { headers: authHeader() })
 
-const items   = computed(() => shop.value?.items   ?? [])
+const items   = computed(() => (shop.value?.items ?? []).filter((item: any) => !item.is_hidden))
 const myGold  = computed(() => shop.value?.my_gold ?? 0)
 const myRank  = computed(() => shop.value?.my_rank ?? 'F')
 

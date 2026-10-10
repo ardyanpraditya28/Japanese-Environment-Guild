@@ -2,7 +2,9 @@ export default defineEventHandler(async (event) => {
   const decoded = requireAuth(event)
   const supabase = useSupabaseAdmin()
 
+  const query = getQuery(event)
   const isStaff = ['admin', 'staff'].includes(decoded.role ?? '')
+  const showAll = isStaff && (query.all === 'true' || query.manage === 'true')
 
   const [{ data: items, error }, { data: profile }] = await Promise.all([
     supabase.from('shop_items').select('*').order('price_gold', { ascending: true }),
@@ -11,9 +13,9 @@ export default defineEventHandler(async (event) => {
 
   if (error) throw createError({ statusCode: 500, statusMessage: error.message })
 
-  // Admin & staff lihat semua item (termasuk hidden) supaya bisa kelola.
-  // User biasa hanya lihat item yang tidak hidden.
-  const visibleItems = isStaff ? (items || []) : (items || []).filter((i) => !i.is_hidden)
+  // Admin & staff hanya melihat item hidden jika secara eksplisit meminta di halaman kelola shop (?all=true).
+  // Di halaman belanja publik (/shop), item hidden tidak ditampilkan kepada siapa pun.
+  const visibleItems = showAll ? (items || []) : (items || []).filter((i) => !i.is_hidden)
 
   return {
     items: visibleItems,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ middleware: 'auth' })
 const route = useRoute()
-const { authHeader, user } = useAuth()
+const { authHeader, user, logout } = useAuth()
 
 const { data: profile, pending, error, refresh } = await useFetch(`/api/profile/${route.params.id}`, {
   headers: authHeader(),
@@ -191,6 +191,12 @@ function timeAgo(dateStr: string) {
             <p class="text-[10px]">Belum ada badge.</p>
           </div>
         </div>
+
+        <!-- Tombol Logout untuk pemilik akun -->
+        <button v-if="isMe" @click="logout"
+          class="mt-6 w-full bg-accent/10 hover:bg-accent text-accent hover:text-white font-heading font-bold text-xs py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
+          <span>🚪</span> Keluar dari Akun
+        </button>
       </div>
 
       <!-- Stats -->

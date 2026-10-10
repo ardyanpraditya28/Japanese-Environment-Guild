@@ -3,7 +3,7 @@
 definePageMeta({ middleware: ['auth', 'staff'] })
 const { authHeader } = useAuth()
 
-const { data: shop, refresh } = await useFetch('/api/shop', { headers: authHeader() })
+const { data: shop, refresh } = await useFetch('/api/shop?all=true', { headers: authHeader() })
 const items = computed(() => shop.value?.items ?? [])
 
 // ── Toast ──

@@ -109,6 +109,14 @@ const bgImage = computed(() => {
           :class="route.path === item.to ? 'bg-accent/10' : 'bg-bg'">{{ item.icon }}</span>
         <span class="text-[9px] font-bold truncate w-full text-center">{{ item.label }}</span>
       </NuxtLink>
+
+      <!-- Logout (Mobile) -->
+      <button @click="logout"
+        class="flex flex-col items-center justify-center shrink-0 w-14 gap-1 p-1 rounded-xl transition-all text-accent hover:opacity-80 active:scale-95"
+        title="Keluar">
+        <span class="w-8 h-8 rounded-full flex items-center justify-center font-heading text-sm bg-accent/10 text-accent">門</span>
+        <span class="text-[9px] font-bold truncate w-full text-center">Keluar</span>
+      </button>
     </nav>
   </div>
 </template>
